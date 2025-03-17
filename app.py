@@ -3,7 +3,7 @@ This is the main file for the Flask application.
 It contains the routes for the API endpoints.
 """
 
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, render_template
 from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import or_
@@ -54,7 +54,15 @@ class Users(db.Model):
     
     def __repr__(self):
         return f"<User {self.username}>"
-    
+
+
+# Define base route to render the index.html file
+@app.route('/')
+def index():
+    """
+    This is the route for rendering the index.html file.
+    """
+    return render_template('index.html')
 
 # Define route for getting all products
 @app.route('/products', methods=["GET"])
@@ -65,7 +73,6 @@ def get_products():
     """
     try:
         products = Products.query.all()
-        print(products)
         product_list = []
         
         for product in products:
@@ -200,4 +207,4 @@ if __name__ == "__main__":
     This is the main function that runs the Flask application.
     It runs the application in debug mode.
     """
-    app.run(debug=True)
+    app.run(debug=True, port=8000)
